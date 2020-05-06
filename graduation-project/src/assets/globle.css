@@ -1,0 +1,86 @@
+body,
+html,
+div,
+p,
+ul,
+ol,
+li,
+dl,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li,
+ol,
+dl,
+dt,
+dd {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.warpper {
+  margin: 0 auto;
+}
+
+.w70 {
+  margin: 0 auto;
+  width: 70%;
+}
+
+.w80 {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.clearfixed {
+  display: block;
+  min-height: 1%;
+}
+.clearfixed::after {
+  content: ".";
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+.none {
+  display: none;
+}
+
+.disabled {
+  background: #d2d2d2 !important;
+}
+
+input,
+textarea {
+  background: #fff;
+  border: 0;
+  cursor: pointer;
+  font-family: "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased !important;
+  outline: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+i, em {
+  font-style: normal;
+}
