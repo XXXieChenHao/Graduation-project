@@ -1,26 +1,21 @@
-<template >
+<template>
   <el-container>
     <el-header height="50px">
       <my-header></my-header>
     </el-header>
     <el-main>
       <div class="moveBg" :style="[bgPosition]">
-        <login v-if="true"></login>
-        <sigin v-else></sigin>
+         <sigin></sigin>
       </div>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import MyHeader from '@/components/Header'
-import Login from '@/components/Login'
-import Sigin from '@/components/Sigin'
+import sigin from '@/components/Sigin'
 export default {
   components: {
-    MyHeader,
-    Login,
-    Sigin
+    sigin
   },
   data () {
     return {
@@ -69,6 +64,7 @@ body{
   z-index: 5;
   position: fixed;
   top: 0;
+  padding: 0;
   width: 100%;
 }
 

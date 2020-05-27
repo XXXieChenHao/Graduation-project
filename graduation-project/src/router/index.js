@@ -24,14 +24,19 @@ const routes = [
     component: () => import('../views/index.vue')
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
+    path: '/detail',
+    name: 'Detail',
+    component: () => import('../views/Detail.vue')
   },
   {
     path: '/signIn',
     name: 'SignIn',
     component: () => import('../views/SignIn.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/report',
@@ -47,7 +52,11 @@ const routes = [
     path: '/cars',
     name: 'Cars',
     component: () => import('../views/Cars.vue')
-
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/About.vue')
   }
 ]
 

@@ -9,16 +9,20 @@
         <el-row>
           <el-col :span="24">
             <div class="grid-content bg-purple-dark">
-              <i class="icon_zaozuo">ZAOZUO造作新家
+              <i class="icon_zaozuo">
+                ZAOZUO造作新家
                 <div class="icon_right">
-
-                <a href="###" @click="hrefLogin"><span class="iconfont icon-geren"></span></a>
-                <a href="###"><span class="iconfont icon-gouwuche"></span></a>
+                  <a href="###" @click="hrefLogin">
+                    <span class="iconfont icon-geren"></span>
+                  </a>
+                  <router-link to="/cars">
+                  <a href="###">
+                    <span class="iconfont icon-gouwuche"></span>
+                  </a>
+                  </router-link>
                 </div>
               </i>
-
             </div>
-
           </el-col>
           <el-col :span="24">
             <navigator></navigator>
@@ -39,6 +43,7 @@
         <my-footer></my-footer>
       </el-footer>
     </el-container>
+    <Elevator></Elevator>
   </div>
 </template>
 
@@ -49,11 +54,17 @@ import Navigator from '@/components/navigator'
 import Swiper from '@/components/swiper'
 import GoodsList from '@/components/goodsList'
 import Banner from '@/components/Banner'
+import Elevator from '@/components/Elevator'
 
 export default {
   methods: {
     hrefLogin () {
-      this.$router.push({ path: '/signIn' })
+      var token = localStorage.getItem('token')
+      if (token === 'exist') {
+        this.$router.push({ path: '/user' })
+      } else {
+        this.$router.push({ path: '/signIn' })
+      }
     }
   },
   components: {
@@ -62,29 +73,29 @@ export default {
     Navigator,
     Swiper,
     GoodsList,
-    Banner
+    Banner,
+    Elevator
   }
 }
-
 </script>
 <style lang="less" scoped>
 .icon_right {
-    position: absolute;
-    right: 0;
-    top: 2rem;
-    color: #000;
-    width: 7.5rem;
-    height: 1.8rem;
-    font-size: 0.75rem;
-    line-height: 1.8rem;
-    display: flex;
-    justify-content: space-around;
+  position: absolute;
+  right: 0;
+  top: 2rem;
+  color: #000;
+  width: 7.5rem;
+  height: 1.8rem;
+  font-size: 0.75rem;
+  line-height: 1.8rem;
+  display: flex;
+  justify-content: space-around;
 }
 .grid-content {
-    width: 64.8rem;
-    position: relative;
-    margin: 0 auto;
-    padding-top: 30px;
+  width: 64.8rem;
+  position: relative;
+  margin: 0 auto;
+  padding-top: 30px;
 }
 .el-main {
   padding: 0;

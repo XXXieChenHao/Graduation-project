@@ -42,6 +42,11 @@ a {
   width: 70%;
 }
 
+.w82{
+  margin: 0 auto;
+  width: 82%;
+}
+
 .w80 {
   margin: 0 auto;
   width: 80%;
@@ -83,4 +88,7 @@ body {
 
 i, em {
   font-style: normal;
+}
+.el-container .el-header {
+  padding: 0;
 }

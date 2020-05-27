@@ -32,12 +32,26 @@ export default {
       activeName: 'first'
     }
   },
-  computed: {},
-  created () {},
-  mounted () {},
-  watch: {},
-  methods: {},
-  components: {}
+  methods: {
+    discount: function () {
+      var that = this
+      this.$http.get('http://localhost:8088/discount', { params: { ipt: that.input } })
+        .then(function (res) {
+          console.log(res)
+          if (res.data.code === 1) {
+            that.code = false
+            console.log('123')
+            that.$options.methods.LoginCode(that)
+          } else {
+            console.log('333')
+            that.code = true
+          }
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 

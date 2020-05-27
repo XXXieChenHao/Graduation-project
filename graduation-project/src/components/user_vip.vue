@@ -4,7 +4,7 @@
     <el-col class="title" :span="24">
       <el-image src="/images/upload/pic.jpg" fit="cover"></el-image>
       <span class="span">解晨昊</span>
-      <a href="###" target="_blank" class="target_btn">了解会员体系</a>
+      <router-link to="/report"><a href="###" target="_blank" class="target_btn">了解会员体系</a></router-link>
     </el-col>
     <!-- 会员部分 -->
     <el-col class="center">
@@ -129,6 +129,7 @@ export default {
   }
 }
 .center {
+  margin-bottom: 140px;
   h1 {
     font-size: 1.3rem;
     line-height: 1;

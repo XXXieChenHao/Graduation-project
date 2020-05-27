@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <ul class="login-header">
-      <li class="first">快捷登录</li>
-      <li class="active">密码登录</li>
+      <li class="first" @click="btnClick(1)">快捷登录</li>
+      <li class="first active" @click="btnClick(2)">密码登录</li>
     </ul>
     <ul class="login-content">
       <!-- 快捷登录 -->
@@ -22,28 +22,87 @@
       <!-- 密码登录 -->
       <li class="psw-login">
         <div class="input_box">
-          <input autocomplete="off" placeholder="手机号／邮箱" id="phone_num_passwd" />
+          <input autocomplete="off" v-model="id" placeholder="手机号／邮箱" id="phone_num_passwd" />
         </div>
         <div class="code_area clearfixed">
           <div class="input_box">
-            <input autocomplete="off" maxlength="12" type="password" placeholder="密码" id="password" />
+            <input autocomplete="off" v-model="psw"  maxlength="12" type="password" placeholder="密码" id="password" />
           </div>
         </div>
-        <div class="tips">请输入正确的验证码</div>
-        <div class="login_btn disabled" id="login">登录</div>
+        <div class="tips" v-if="code">请输入正确的账号或密码</div>
+        <div class="login_btn" id="login" @click="login">登录</div>
 
         <div class="forget_box clearfixed">
           <a class="forget_btn" href="###">忘记密码</a>
         </div>
       </li>
     </ul>
-
     <p class="register">
       还没有账号？
       <a id="register" @click="hrefRegister" href="javascript: void(0);">立即注册</a>
     </p>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      id: '',
+      psw: '',
+      code: false
+    }
+  },
+  methods: {
+    btnClick: function (eq) {
+      console.log(eq)
+      if (eq === 1) {
+        document.getElementsByClassName('first')[0].classList.add('active')
+        document.getElementsByClassName('first')[1].classList.remove('active')
+        document.getElementsByClassName('code-login')[0].style.display = 'block'
+        document.getElementsByClassName('psw-login')[0].style.display = 'none'
+      } else {
+        document.getElementsByClassName('first')[0].classList.remove('active')
+        document.getElementsByClassName('first')[1].classList.add('active')
+        document.getElementsByClassName('code-login')[0].style.display = 'none'
+        document.getElementsByClassName('psw-login')[0].style.display = 'block'
+      }
+    },
+    hrefRegister: function () {
+    },
+    login: function () {
+      var that = this
+      this.$http.get('http://localhost:8080/login', { params: { id: this.id, password: this.psw } })
+        .then(function (res) {
+          console.log(res)
+          if (res.data.code === 1) {
+            that.code = false
+            console.log('123')
+            that.$options.methods.LoginCode(that)
+          } else {
+            console.log('333')
+            that.code = true
+          }
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    LoginCode: function (that) {
+      that.$message({
+        message: '登录成功',
+        type: 'success'
+      })
+      // 保存token到本地
+      localStorage.setItem('token', 'exist')
+      // 跳转页面
+      setTimeout(function () {
+        that.$router.push({ name: 'Index' })
+      }, 1000)
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 
@@ -183,6 +242,9 @@
   color: #a0a0a0;
   background: #f6f6f6;
   text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   a {
     color: #000;
     cursor: pointer;
