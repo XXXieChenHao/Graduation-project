@@ -1,24 +1,91 @@
 <template>
   <div class="content">
-    <i class="iconfont icon-iconfontjiantou1"></i>
+    <i class="iconfont icon-iconfontjiantou1" @click="back"></i>
     <h2>欢迎加入造作新家</h2>
     <div class="input_box">
-      <input autocomplete="off" maxlength="11" placeholder="请输入手机号" id="phone_num" />
+      <input autocomplete="off" maxlength="11" @input="telIpt" placeholder="请输入手机号" id="tel" />
     </div>
     <div class="code_area clearfixed">
       <div class="input_area">
         <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" />
       </div>
-      <input type="button" class="code_btn disabled" value="获取验证码" />
+      <input
+        type="button"
+        id="code_btn"
+        class="code_btn disabled"
+        disabled
+        @click="sendMessage"
+        value="获取验证码"
+      />
     </div>
     <div class="tips"></div>
-    <div class="login_btn disabled" id="login">注册</div>
+    <div class="login_btn disabled" id="login" @click="register">注册</div>
     <p class="hint">
       注册代表你已同意
       <a href="https://www.zaozuo.com/agreement">《造作用户协议》</a>
+      <router-link to="/Login">前往登录</router-link>
     </p>
   </div>
 </template>
+
+<script>
+import $ from 'jquery'
+export default {
+  methods: {
+    back () {
+      this.$router.push({ path: '/' })
+    },
+    sendMessage () {
+      var that = this
+      var time = 120
+      that.$message({
+        message: '验证码发送成功',
+        type: 'success'
+      })
+      var timer = setInterval(() => {
+        time -= 1
+        if (time === 0) {
+          $('#code_btn').val('发送验证码')
+          $('#code_btn').removeAttr('disabled')
+          clearInterval(timer)
+        } else {
+          $('#code_btn').val(time)
+          $('#code_btn').attr('disabled', 'disabled')
+        }
+      }, 1000)
+    },
+    telIpt () {
+      var val = $('#tel').val()
+      if (val.trim() === '') {
+        $('#code_btn').addClass('disabled')
+        $('#code_btn').attr('disabled', 'disabled')
+      } else {
+        $('#code_btn').removeClass('disabled')
+        $('#code_btn').removeAttr('disabled')
+      }
+    },
+    register: function () {
+      var tel = $('#tel').val()
+      var code = $('#code').val()
+      var that = this
+      var param = {
+        tel,
+        code
+      }
+      this.$http.post('/api/register', param, {
+        emulateJSON: true
+      }).then(res => {
+        if (res.code === 0) {
+          that.$message({
+            message: '对不起,账号已存在',
+            type: 'success'
+          })
+        }
+      })
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 .content {

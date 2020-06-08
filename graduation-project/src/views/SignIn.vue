@@ -5,17 +5,19 @@
     </el-header>
     <el-main>
       <div class="moveBg" :style="[bgPosition]">
-         <sigin></sigin>
+        <sigin></sigin>
       </div>
     </el-main>
   </el-container>
 </template>
 
 <script>
+import MyHeader from '@/components/Header'
 import sigin from '@/components/Sigin'
 export default {
   components: {
-    sigin
+    sigin,
+    MyHeader
   },
   data () {
     return {
@@ -54,7 +56,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-body{
+body {
   height: 100%;
   overflow-x: hidden;
 }
@@ -79,7 +81,7 @@ body{
   left: -10%;
   top: -5%;
   z-index: 1;
-  background:url("/images/imgs/login_bg.jpg") no-repeat 50% 0;
+  background: url("/images/imgs/login_bg.jpg") no-repeat 50% 0;
   background-repeat: repeat\0;
   background-size: auto 100%;
 }

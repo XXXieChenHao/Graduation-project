@@ -8,16 +8,31 @@
       <!-- 快捷登录 -->
       <li class="code-login none">
         <div class="input_box">
-          <input type="text" placeholder="请输入手机号" maxlength="11" autocomplete="off" />
+          <input
+            type="text"
+            placeholder="请输入手机号"
+            maxlength="11"
+            autocomplete="off"
+            id="tel"
+            @input="telIpt"
+          />
         </div>
         <div class="code_area clearfixed">
           <div class="input_area">
             <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" />
           </div>
-          <input type="button" class="code_btn disabled" value="获取验证码" />
+          <input
+            type="button"
+            class="code_btn disabled"
+            value="获取验证码"
+            id="code_btn"
+            disabled
+            @click="sendMessage"
+          />
         </div>
-        <div class="tips">请输入正确的验证码</div>
-        <div class="login_btn" id="login">登录</div>
+        <div class="tips" v-if="showFlag">请输入正确的验证码</div>
+        <div class="tips" v-if="telFalg">请输入手机号</div>
+        <div class="login_btn" id="login" @click="loginBtn">登录</div>
       </li>
       <!-- 密码登录 -->
       <li class="psw-login">
@@ -26,7 +41,14 @@
         </div>
         <div class="code_area clearfixed">
           <div class="input_box">
-            <input autocomplete="off" v-model="psw"  maxlength="12" type="password" placeholder="密码" id="password" />
+            <input
+              autocomplete="off"
+              v-model="psw"
+              maxlength="12"
+              type="password"
+              placeholder="密码"
+              id="password"
+            />
           </div>
         </div>
         <div class="tips" v-if="code">请输入正确的账号或密码</div>
@@ -39,18 +61,23 @@
     </ul>
     <p class="register">
       还没有账号？
-      <a id="register" @click="hrefRegister" href="javascript: void(0);">立即注册</a>
+      <a id="register" @click="hrefRegister" href="javascript: void(0);">
+        <router-link to="/signIn">立即注册</router-link>
+      </a>
     </p>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 export default {
   data () {
     return {
       id: '',
       psw: '',
-      code: false
+      code: false,
+      showFlag: false,
+      telFalg: false
     }
   },
   methods: {
@@ -74,13 +101,10 @@ export default {
       var that = this
       this.$http.get('http://localhost:8080/login', { params: { id: this.id, password: this.psw } })
         .then(function (res) {
-          console.log(res)
           if (res.data.code === 1) {
             that.code = false
-            console.log('123')
             that.$options.methods.LoginCode(that)
           } else {
-            console.log('333')
             that.code = true
           }
         })
@@ -94,20 +118,54 @@ export default {
         type: 'success'
       })
       // 保存token到本地
-      localStorage.setItem('token', 'exist')
+      sessionStorage.setItem('token', 'exist')
       // 跳转页面
       setTimeout(function () {
         that.$router.push({ name: 'Index' })
       }, 1000)
+    },
+    // 快速登陆
+    loginBtn: function () {
+      if ($('#code').val().trim() === '') {
+        this.showFlag = true
+      }
+    },
+    sendMessage () {
+      var that = this
+      var time = 120
+      that.$message({
+        message: '验证码发送成功',
+        type: 'success'
+      })
+      var timer = setInterval(() => {
+        time -= 1
+        if (time === 0) {
+          $('#code_btn').val('发送验证码')
+          clearInterval(timer)
+        } else {
+          $('#code_btn').val(time)
+        }
+      }, 1000)
+    },
+    // 发送验证码
+    telIpt () {
+      console.log('333')
+      var val = $('#tel').val()
+      if (val.trim() === '') {
+        $('#code_btn').addClass('disabled')
+        $('#code_btn').attr('disabled')
+      } else {
+        $('#code_btn').removeClass('disabled')
+        $('#code_btn').removeAttr('disabled')
+      }
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-
 .login {
-    min-width: 410px;
+  min-width: 410px;
   min-height: 300px;
   box-sizing: border-box;
   position: fixed;

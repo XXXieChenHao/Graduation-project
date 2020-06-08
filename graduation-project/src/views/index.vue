@@ -16,9 +16,9 @@
                     <span class="iconfont icon-geren"></span>
                   </a>
                   <router-link to="/cars">
-                  <a href="###">
-                    <span class="iconfont icon-gouwuche"></span>
-                  </a>
+                    <a href="###">
+                      <span class="iconfont icon-gouwuche"></span>
+                    </a>
                   </router-link>
                 </div>
               </i>
@@ -38,6 +38,9 @@
 
         <!-- banner部分 -->
         <banner></banner>
+
+        <index-list></index-list>
+        <index-bottom></index-bottom>
       </el-main>
       <el-footer height="551px">
         <my-footer></my-footer>
@@ -53,17 +56,19 @@ import MyFooter from '@/components/Footer'
 import Navigator from '@/components/navigator'
 import Swiper from '@/components/swiper'
 import GoodsList from '@/components/goodsList'
+import IndexList from '@/components/indexList'
+import IndexBottom from '@/components/indexBottom'
 import Banner from '@/components/Banner'
 import Elevator from '@/components/Elevator'
 
 export default {
   methods: {
     hrefLogin () {
-      var token = localStorage.getItem('token')
+      var token = sessionStorage.getItem('token')
       if (token === 'exist') {
         this.$router.push({ path: '/user' })
       } else {
-        this.$router.push({ path: '/signIn' })
+        this.$router.push({ path: '/login' })
       }
     }
   },
@@ -74,7 +79,9 @@ export default {
     Swiper,
     GoodsList,
     Banner,
-    Elevator
+    Elevator,
+    IndexList,
+    IndexBottom
   }
 }
 </script>

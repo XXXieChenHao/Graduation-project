@@ -22,7 +22,12 @@ dd {
 }
 
 a {
+  color: #333;
   text-decoration: none;
+}
+
+a:hover {
+  color: #333;
 }
 
 .fl {
@@ -42,7 +47,7 @@ a {
   width: 70%;
 }
 
-.w82{
+.w82 {
   margin: 0 auto;
   width: 82%;
 }
@@ -86,9 +91,18 @@ body {
   overflow-x: hidden;
 }
 
-i, em {
+i,
+em {
   font-style: normal;
 }
 .el-container .el-header {
   padding: 0;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }
