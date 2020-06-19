@@ -26,7 +26,13 @@
         </div>
       </div>
     </el-tab-pane>
-    <el-tab-pane label="其他" name="third">其他</el-tab-pane>
+    <el-tab-pane label="其他" name="third">
+      <div class="block">
+        <span class="demonstration">周</span>
+        <el-date-picker v-model="value1" type="week" format="yyyy 第 WW 周" placeholder="选择周"></el-date-picker>
+      </div>
+      {{value1}}
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -34,6 +40,7 @@
 export default {
   data () {
     return {
+      value1: '',
       activeName: 'first',
       arr: [
         {
@@ -54,18 +61,20 @@ export default {
     }
   },
   created () {
+
+  },
+  update () {
     this.mouse()
   },
   methods: {
     mouse: function (index) {
       console.log(index)
-      console.log(document.getElementById(index))
       document.getElementById(index).style.opacity = 1
     },
     leave: function (index) {
       document.getElementById(index).style.opacity = 0
     },
-    handleClick: function () {}
+    handleClick: function () { }
   }
 }
 </script>

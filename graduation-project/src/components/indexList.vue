@@ -234,7 +234,6 @@ export default {
   methods: {
     getImg: function (eq) {
       var that = this
-      // this.$http.get('http://localhost:8080/getImg', { params: { id: eq } })
       this.$http.get('/api/getImg', { params: { id: eq } })
         .then(res => {
           if (res.data.code === 1) {

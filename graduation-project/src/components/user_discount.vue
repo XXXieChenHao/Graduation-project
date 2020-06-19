@@ -4,9 +4,7 @@
       <el-tab-pane label="优惠券" name="first">
         <el-input class="code" placeholder="输入兑换码" v-model="input" clearable></el-input>
         <div class="btn">兑换</div>
-        <el-tooltip class="tooltip" effect="dark" content="sdafjhsdfhafhk" placement="bottom-end">
-          <span>使用说明</span>
-        </el-tooltip>
+        <el-tooltip class="tooltip" effect="dark" content="sdafjhsdfhafhk" placement="bottom-end"></el-tooltip>
       </el-tab-pane>
       <el-tab-pane label="礼品卡" name="second">
         <el-input class="card" placeholder="输入卡号" v-model="card" clearable></el-input>

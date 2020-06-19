@@ -7,7 +7,7 @@
     </div>
     <div class="code_area clearfixed">
       <div class="input_area">
-        <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" />
+        <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" @input="codeIpt" />
       </div>
       <input
         type="button"
@@ -37,7 +37,7 @@ export default {
     },
     sendMessage () {
       var that = this
-      var time = 120
+      var time = 5
       that.$message({
         message: '验证码发送成功',
         type: 'success'
@@ -75,13 +75,40 @@ export default {
       this.$http.post('/api/register', param, {
         emulateJSON: true
       }).then(res => {
-        if (res.code === 0) {
-          that.$message({
-            message: '对不起,账号已存在',
-            type: 'success'
+        if (res.data.code === 0) {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          })
+        } else if (res.data.code === 1) {
+          this.$message({
+            message: res.data.msg,
+            type: 'success',
+            onClose: function () {
+              sessionStorage.setItem('token', res.data.token)
+              that.$router.push({ name: 'User' })
+            }
+          })
+        } else if (res.data.code === -1) {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
           })
         }
       })
+    },
+    open (msg) {
+      this.$message(msg)
+    },
+    codeIpt () {
+      var length = $('#code').val().length
+      if (length === 4) {
+        $('#login').removeClass('disabled')
+        $('#login').removeAttr('disabled')
+      } else {
+        $('#login').addClass('disabled')
+        $('#login').attr('disabled', 'disabled')
+      }
     }
   }
 }

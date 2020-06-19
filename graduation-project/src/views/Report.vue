@@ -84,15 +84,15 @@
                     <th>行为</th>
                     <th>成长值</th>
                     <th>时间</th>
-                    </tr>
-                    <tr>
-                      <td>完善个人信息</td>
-                      <td>50</td>
-                      <td>2020-05-02</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  </tr>
+                  <tr>
+                    <td>完善个人信息</td>
+                    <td>50</td>
+                    <td>2020-05-02</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </el-collapse-item>
         </el-collapse>
       </el-main>
@@ -147,6 +147,10 @@ export default {
     padding: 1.8rem 0rem;
   }
 }
+.el-footer {
+  height: auto;
+  padding: 0;
+}
 
 .how {
   overflow: hidden;
@@ -168,10 +172,10 @@ export default {
 }
 
 .member {
-    padding: 1%;
-    background: #f6f6f6;
-    margin-top: .6rem;
-    margin-bottom: 2rem;
+  padding: 1%;
+  background: #f6f6f6;
+  margin-top: 0.6rem;
+  margin-bottom: 2rem;
 }
 
 .member-table {
@@ -182,24 +186,23 @@ export default {
   border-bottom: #d2d2d2 1px solid;
 }
 
-.member-table tr th{
-    line-height: 1.5rem;
-    padding: 1rem 2rem;
-    font-weight: 400;
-    font-size: .8rem;
+.member-table tr th {
+  line-height: 1.5rem;
+  padding: 1rem 2rem;
+  font-weight: 400;
+  font-size: 0.8rem;
 }
 
-.member-table tr td{
-       line-height: 1.5rem;
-    padding: 1rem 2rem;
-    font-weight: 400;
-    font-size: .8rem;
- }
+.member-table tr td {
+  line-height: 1.5rem;
+  padding: 1rem 2rem;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
 
 .table2 {
   td {
     &:nth-child(1) {
-
       width: 6rem;
     }
   }

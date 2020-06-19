@@ -19,7 +19,7 @@
         </div>
         <div class="code_area clearfixed">
           <div class="input_area">
-            <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" />
+            <input autocomplete="off" maxlength="4" placeholder="请输入验证码" id="code" @input="codeIpt" />
           </div>
           <input
             type="button"
@@ -32,7 +32,7 @@
         </div>
         <div class="tips" v-if="showFlag">请输入正确的验证码</div>
         <div class="tips" v-if="telFalg">请输入手机号</div>
-        <div class="login_btn" id="login" @click="loginBtn">登录</div>
+        <div class="login_btn disabled" id="login" @click="loginBtn" disabled>登录</div>
       </li>
       <!-- 密码登录 -->
       <li class="psw-login">
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="tips" v-if="code">请输入正确的账号或密码</div>
-        <div class="login_btn" id="login" @click="login">登录</div>
+        <div class="login_btn" id="login2" @click="login">登录</div>
 
         <div class="forget_box clearfixed">
           <a class="forget_btn" href="###">忘记密码</a>
@@ -81,8 +81,8 @@ export default {
     }
   },
   methods: {
+    // 切换按钮
     btnClick: function (eq) {
-      console.log(eq)
       if (eq === 1) {
         document.getElementsByClassName('first')[0].classList.add('active')
         document.getElementsByClassName('first')[1].classList.remove('active')
@@ -95,11 +95,24 @@ export default {
         document.getElementsByClassName('psw-login')[0].style.display = 'block'
       }
     },
+    // 路由跳转
     hrefRegister: function () {
     },
+    //  账号登陆
     login: function () {
       var that = this
-      this.$http.get('http://localhost:8080/login', { params: { id: this.id, password: this.psw } })
+      var id = this.id.split('')
+      var psw = this.psw.split('')
+      var arr = []
+      var brr = []
+      id.forEach(e => {
+        arr.push(e.charCodeAt())
+      })
+      psw.forEach(e => {
+        brr.push(e.charCodeAt())
+      })
+
+      this.$http.get('http://localhost:8080/login', { params: { id: arr.toString(), password: brr.toString() } })
         .then(function (res) {
           if (res.data.code === 1) {
             that.code = false
@@ -107,9 +120,6 @@ export default {
           } else {
             that.code = true
           }
-        })
-        .catch(function (err) {
-          console.log(err)
         })
     },
     LoginCode: function (that) {
@@ -121,13 +131,53 @@ export default {
       sessionStorage.setItem('token', 'exist')
       // 跳转页面
       setTimeout(function () {
-        that.$router.push({ name: 'Index' })
+        that.$router.push({ name: 'User' })
       }, 1000)
+    },
+    codeIpt: function () {
+      var val = $('#code').val()
+      if (val.trim() === '') {
+        $('#login').addClass('disabled')
+        $('#login').attr('disabled')
+      } else {
+        $('#login').removeClass('disabled')
+        $('#login').removeAttr('disabled')
+      }
     },
     // 快速登陆
     loginBtn: function () {
+      var that = this
+      var tel = $('#tel').val()
+      var code = $('#code').val()
+      var param = {
+        tel,
+        code
+      }
+
       if ($('#code').val().trim() === '') {
-        this.showFlag = true
+        that.$message({
+          message: '请输入验证码',
+          type: 'error'
+        })
+      } else {
+        this.$http.post('/api/telLogin', param)
+          .then(res => {
+            if (res.data.code === 1) {
+              that.$message({
+                message: res.data.msg,
+                type: 'success',
+                onClose: function () {
+                  sessionStorage.setItem('token', res.data.token)
+                  that.$router.push({ name: 'User' })
+                }
+              })
+            } else {
+              that.$message({
+                message: res.data.msg,
+                type: 'error'
+              })
+            }
+          })
       }
     },
     sendMessage () {
@@ -149,7 +199,6 @@ export default {
     },
     // 发送验证码
     telIpt () {
-      console.log('333')
       var val = $('#tel').val()
       if (val.trim() === '') {
         $('#code_btn').addClass('disabled')

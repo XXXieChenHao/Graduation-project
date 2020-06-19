@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <a class="exit" @click="exit">退出</a>
     <el-header>
       <my-header></my-header>
     </el-header>
@@ -60,11 +61,25 @@ export default {
     return {
       activeName: 'first'
     }
+  },
+  methods: {
+    exit () {
+      sessionStorage.removeItem('token')
+      this.$router.push({ name: 'Index' })
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.exit {
+  position: absolute;
+  top: 16px;
+  right: 130px;
+  color: #fff;
+  z-index: 101;
+  cursor: pointer;
+}
 .el-header {
   padding: 0;
   position: fixed;

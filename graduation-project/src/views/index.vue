@@ -65,7 +65,7 @@ export default {
   methods: {
     hrefLogin () {
       var token = sessionStorage.getItem('token')
-      if (token === 'exist') {
+      if (token) {
         this.$router.push({ path: '/user' })
       } else {
         this.$router.push({ path: '/login' })

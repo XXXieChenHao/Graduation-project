@@ -44,6 +44,17 @@
         <img :src="item" alt />
       </div>
     </div>
+    <div class="commit">
+      <h3 class="commit_title">评论 & 晒单</h3>
+      <div class="commit_box">
+        <div class="commit_item" v-for="(item,index) in commitList" :key="index">
+          <img class="headimg" :src="item.img" alt />
+          <p class="name">{{item.name}}</p>
+          <p class="detail">{{item.detail}}</p>
+        </div>
+      </div>
+      <div class="look_more" @click="getInfo">加载更多</div>
+    </div>
     <my-footer></my-footer>
   </div>
 </template>
@@ -66,7 +77,8 @@ export default {
       currImg: [],
       spicImg: [],
       color: [],
-      colorIndex: 0
+      colorIndex: 0,
+      commitList: []
     }
   },
   mounted () {
@@ -79,6 +91,8 @@ export default {
       this.$http.get('/getComment')
         .then((res) => {
           console.log(res)
+          this.commitList = this.commitList.concat(res.data.list)
+          console.log(this.commitList)
         })
         .catch(function (error) {
           console.log(error)
@@ -107,6 +121,52 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+.commit {
+  width: 1366px;
+  margin: 0 auto;
+  .commit_title {
+    font-size: 30px;
+    height: 60px;
+    border-bottom: 1px solid #666;
+  }
+  .commit_item {
+    width: 100%;
+    // height: 100px;
+    margin: 40px 0;
+
+    .name {
+      font-size: 24px;
+      margin-left: 80px;
+    }
+
+    .detail {
+      font-size: 16px;
+      margin-left: 80px;
+      margin-top: 20px;
+    }
+
+    p {
+      text-align: left;
+    }
+  }
+
+  .headimg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    float: left;
+  }
+}
+
+.look_more {
+  font-size: 24px;
+  padding: 10px 30px;
+  border: 1px solid #666;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
 .show {
   width: 84%;
   max-width: 90rem;

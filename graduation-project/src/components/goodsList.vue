@@ -5,25 +5,25 @@
       <h5>27国100+设计大师签名作品，五年百万用户挚爱</h5>
       <div class="contain">
         <div class="item flex4" v-for="(item, index) in list1" :key="index">
-          <router-link to="/goodsDetail">
-            <a href="javascript:;" class="item_a">
-              <img :src="item.url" class="imgUrl" />
-            </a>
-            <div class="text">
-              <p class="title">{{item.title}}</p>
-              <p class="price">￥{{item.price}}起</p>
+          <a href="javascript:;" class="item_a">
+            <img :src="item.url" class="imgUrl" />
+          </a>
+          <div class="text">
+            <p class="title">{{item.title}}</p>
+            <p class="price">￥{{item.price}}起</p>
+          </div>
+          <router-link to="goodsDetail">
+            <div class="index-goods-img-hover">
+              <div>
+                <p>{{item.detail}}</p>
+              </div>
+            </div>
+            <div class="index-goods-title">
+              <div>
+                <p>{{item.city}}</p>
+              </div>
             </div>
           </router-link>
-          <div class="index-goods-img-hover">
-            <div>
-              <p>{{item.detail}}</p>
-            </div>
-          </div>
-          <div class="index-goods-title">
-            <div>
-              <p>{{item.city}}</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

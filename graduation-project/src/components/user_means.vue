@@ -45,16 +45,36 @@
       </div>
     </div>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>这是一段信息</span>
+      <form class="layer">
+        <div class="item">
+          <label>收货人</label>
+          <input type="text" class="input" id="name" autocomplete="off" />
+        </div>
+        <div class="item">
+          <label>手机号</label>
+          <input type="text" class="input" id="tel" autocomplete="off" />
+        </div>
+        <div class="add_item">
+          <label>省</label>
+          <input type="text" class="input" id="p" autocomplete="off" />
+          <label>市</label>
+          <input type="text" class="input" id="c" autocomplete="off" />
+          <label>区</label>
+          <input type="text" class="input" id="a" autocomplete="off" />
+          <label>详情</label>
+          <input type="text" class="input" id="d" autocomplete="off" />
+        </div>
+      </form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button class="button" type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button class="button" type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 export default {
   data () {
     return {
@@ -93,7 +113,61 @@ export default {
         .then(_ => {
           done()
         })
-        .catch(_ => {})
+        .catch(_ => { })
+    },
+    submit () {
+      var address = {
+        id: '',
+        tel: '',
+        name: '',
+        province: '',
+        city: '',
+        area: '',
+        detail: ''
+      }
+      address.id = this.addressList.length + 1
+      address.name = $('#name').val()
+      address.tel = $('#tel').val()
+      address.province = $('#p').val()
+      address.city = $('#c').val()
+      address.detail = $('#d').val()
+      address.area = $('#a').val()
+      if (address.name === '') {
+        this.$message({
+          message: '请输入收货人',
+          type: 'error'
+        })
+      } else if (address.tel === '') {
+        this.$message({
+          message: '请输入收货人',
+          type: 'error'
+        })
+      } else if (address.province === '') {
+        this.$message({
+          message: '请输入收货省份',
+          type: 'error'
+        })
+      } else if (address.city === '') {
+        this.$message({
+          message: '请输入收货城市',
+          type: 'error'
+        })
+      } else if (address.area === '') {
+        this.$message({
+          message: '请输入收货区域',
+          type: 'error'
+        })
+      } else {
+        this.dialogVisible = false
+        this.addressList.push(address)
+
+        $('#name').val('')
+        $('#tel').val('')
+        $('#p').val('')
+        $('#c').val('')
+        $('#d').val('')
+        $('#a').val('')
+      }
     }
   }
 }
@@ -103,6 +177,32 @@ export default {
   width: 100%;
   margin: 0 auto;
   min-width: 800px;
+
+  .item {
+    margin-bottom: 20px;
+    & label {
+      width: 15%;
+      text-align: right;
+      display: inline-block;
+    }
+  }
+
+  .add_item {
+    display: flex;
+    align-items: center;
+
+    & label {
+      margin-left: 10px;
+    }
+  }
+
+  .input {
+    border: 1px solid #e4e4e4;
+    height: 30px;
+    width: 70%;
+    margin-left: 20px;
+    box-sizing: border-box;
+  }
 }
 
 .show {
